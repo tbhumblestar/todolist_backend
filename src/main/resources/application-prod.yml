@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://todolist-db.clccqaqe4sfc.ap-northeast-2.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 475777244799-k1g582vvthgs6c5gi24gs9vridr9r0q3.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${OAUTH2_REDIRECT_URI:http://localhost:8080/api/v1/auth/oauth2/callback/google}
+            scope: email, profile
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000

@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todolistdb
+    username: todo
+    password: todo1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 475777244799-k1g582vvthgs6c5gi24gs9vridr9r0q3.apps.googleusercontent.com
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: http://localhost:8080/api/v1/auth/oauth2/callback/google
+            scope: email, profile
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+jwt:
+  secret: local-dev-secret-key-change-in-production-must-be-at-least-256-bits-long
+  expiration: 86400000

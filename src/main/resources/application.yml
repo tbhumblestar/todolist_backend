@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: todolist
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+cloud:
+  aws:
+    region: ap-northeast-2
+    s3:
+      bucket: todolist-youngbin
+      endpoint: https://todolist-youngbin.s3.ap-northeast-2.amazonaws.com
+
+server:
+  port: 8080
