@@ -4,6 +4,7 @@ import com.example.todolist.user.User
 import com.example.todolist.user.UserRepository
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Component
 @Component
 class OAuth2SuccessHandler(
     private val userRepository: UserRepository,
-    private val jwtProvider: JwtProvider
+    private val jwtProvider: JwtProvider,
+    @Value("\${app.frontend-url:http://localhost:3000}") private val frontendUrl: String
 ) : AuthenticationSuccessHandler {
 
     override fun onAuthenticationSuccess(
@@ -37,6 +39,6 @@ class OAuth2SuccessHandler(
             )
 
         val token = jwtProvider.generateToken(user.id, user.email)
-        response.sendRedirect("http://localhost:3000?token=$token")
+        response.sendRedirect("$frontendUrl?token=$token")
     }
 }
