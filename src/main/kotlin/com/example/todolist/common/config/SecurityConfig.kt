@@ -2,6 +2,7 @@ package com.example.todolist.common.config
 
 import com.example.todolist.auth.JwtAuthFilter
 import com.example.todolist.auth.OAuth2SuccessHandler
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -22,7 +23,8 @@ import jakarta.servlet.http.HttpServletResponse
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtAuthFilter: JwtAuthFilter,
-    private val oAuth2SuccessHandler: OAuth2SuccessHandler
+    private val oAuth2SuccessHandler: OAuth2SuccessHandler,
+    @Value("\${app.cors-origins:http://localhost:3000}") private val corsOrigins: String
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -60,7 +62,7 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedOrigins = corsOrigins.split(",").map { it.trim() }
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         configuration.allowedHeaders = listOf("*")
         configuration.allowCredentials = false
