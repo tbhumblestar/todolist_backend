@@ -74,6 +74,32 @@ EC2 (Amazon Linux)
 - GitHub Secrets로 시크릿 관리 (DB 비밀번호, JWT, OAuth, AWS 키)
 - 비시크릿 설정값은 `application-prod.yml`에 직접 정의
 
+### GitHub Secrets 목록
+
+| Secret | 설명 |
+|--------|------|
+| `EC2_HOST` | EC2 탄력적 IP |
+| `EC2_USER` | `ec2-user` |
+| `EC2_SSH_KEY` | PEM 키 전체 내용 |
+| `DB_PASSWORD` | RDS 비밀번호 |
+| `JWT_SECRET` | JWT 서명 키 |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth 시크릿 |
+| `AWS_ACCESS_KEY_ID` | S3 접근 키 |
+| `AWS_SECRET_ACCESS_KEY` | S3 시크릿 키 |
+| `CORS_ORIGINS` | 허용 CORS origin (쉼표 구분, 예: `https://main.xxx.amplifyapp.com,http://localhost:3000`) |
+| `FRONTEND_URL` | OAuth 로그인 성공 후 리다이렉트할 프론트엔드 URL |
+| `OAUTH2_REDIRECT_URI` | Google OAuth 콜백 URI (CloudFront 경유 시 CF 도메인 사용) |
+
+### 환경변수 기반 설정 (Amplify 배포 대응)
+
+CORS, OAuth 리다이렉트 등 환경별로 달라지는 값은 환경변수로 주입:
+
+| 속성 | 환경변수 | 기본값 | 설명 |
+|------|----------|--------|------|
+| `app.cors-origins` | `CORS_ORIGINS` | `http://localhost:3000` | CORS 허용 origin (쉼표 구분) |
+| `app.frontend-url` | `FRONTEND_URL` | `http://localhost:3000` | OAuth 성공 후 프론트 리다이렉트 URL |
+| `spring.security.oauth2.client.registration.google.redirect-uri` | `OAUTH2_REDIRECT_URI` | `http://localhost:8080/api/v1/auth/oauth2/callback/google` | Google OAuth 콜백 URI |
+
 ### 로컬 실행
 
 ```bash
